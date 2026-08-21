@@ -1,11 +1,8 @@
-import os
-
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from google import genai
 from pydantic import BaseModel
 
-load_dotenv()
+from app.config import settings
 
 app = FastAPI(title="Gemini Chat API")
 
@@ -26,7 +23,7 @@ def health():
 
 @app.post("/api/v1/chat")
 def chat(request: ChatRequest):
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = settings.GEMINI_API_KEY
 
     if not api_key:
         raise HTTPException(
